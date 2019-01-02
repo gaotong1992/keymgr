@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Class-Path: spring-aop-5.0.8.RELEASE.jar spring-core-5.0.8.RELEASE.jar
+  spring-jcl-5.0.8.RELEASE.jar spring-web-5.0.8.RELEASE.jar spring-con
+ text-5.0.8.RELEASE.jar spring-expression-5.0.8.RELEASE.jar spring-bea
+ ns-5.0.8.RELEASE.jar
+

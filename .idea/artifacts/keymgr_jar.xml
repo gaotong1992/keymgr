@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact name="keymgr:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/keymgr_jar</output-path>
+    <root id="root">
+      <element id="archive" name="keymgr.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="module-output" name="keymgr" />
+      </element>
+      <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.0.8.RELEASE" />
+      <element id="library" level="project" name="Maven: org.springframework:spring-core:5.0.8.RELEASE" />
+      <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.0.8.RELEASE" />
+      <element id="library" level="project" name="Maven: org.springframework:spring-web:5.0.8.RELEASE" />
+      <element id="library" level="project" name="Maven: org.springframework:spring-context:5.0.8.RELEASE" />
+      <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.0.8.RELEASE" />
+      <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.0.8.RELEASE" />
+    </root>
+  </artifact>
+</component>

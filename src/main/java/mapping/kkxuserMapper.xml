@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkx.user.service.kkxuserMapper">
+  <resultMap id="BaseResultMap" type="com.kkx.user.bean.kkxuser">
+    <id column="USERID" jdbcType="DECIMAL" property="userid" />
+    <result column="USERUUID" jdbcType="VARCHAR" property="useruuid" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+    <result column="USERPWD" jdbcType="VARCHAR" property="userpwd" />
+    <result column="USERTYPE" jdbcType="DECIMAL" property="usertype" />
+    <result column="USERSTATUS" jdbcType="DECIMAL" property="userstatus" />
+    <result column="USERDESC" jdbcType="VARCHAR" property="userdesc" />
+    <result column="USERHOBBY" jdbcType="VARCHAR" property="userhobby" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crtime" />
+    <result column="CRUSERID" jdbcType="DECIMAL" property="cruserid" />
+    <result column="USERSTARTTIME" jdbcType="TIMESTAMP" property="userstarttime" />
+    <result column="USERENDTIME" jdbcType="TIMESTAMP" property="userendtime" />
+    <result column="CRTIMESTR" jdbcType="DECIMAL" property="crtimestr" />
+    <result column="USERSTARTTIMESTR" jdbcType="DECIMAL" property="userstarttimestr" />
+    <result column="USERENDTIMESTR" jdbcType="DECIMAL" property="userendtimestr" />
+    <result column="TOKEN" jdbcType="VARCHAR" property="token" />
+    <result column="USERADDRESS" jdbcType="VARCHAR" property="useraddress" />
+    <result column="USERTELPHONE" jdbcType="VARCHAR" property="usertelphone" />
+    <result column="USERMOBILE" jdbcType="VARCHAR" property="usermobile" />
+    <result column="USEREMAIL" jdbcType="VARCHAR" property="useremail" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    USERID, USERUUID, USERNAME, USERPWD, USERTYPE, USERSTATUS, USERDESC, USERHOBBY, CRTIME, 
+    CRUSERID, USERSTARTTIME, USERENDTIME, CRTIMESTR, USERSTARTTIMESTR, USERENDTIMESTR, 
+    TOKEN, USERADDRESS, USERTELPHONE, USERMOBILE, USEREMAIL
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from KKX.KKXUSER
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from KKX.KKXUSER
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.kkx.user.bean.kkxuser">
+    insert into KKX.KKXUSER (USERID, USERUUID, USERNAME, 
+      USERPWD, USERTYPE, USERSTATUS, 
+      USERDESC, USERHOBBY, CRTIME, 
+      CRUSERID, USERSTARTTIME, USERENDTIME, 
+      CRTIMESTR, USERSTARTTIMESTR, USERENDTIMESTR, 
+      TOKEN, USERADDRESS, USERTELPHONE, 
+      USERMOBILE, USEREMAIL)
+    values (#{userid,jdbcType=DECIMAL}, #{useruuid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{userpwd,jdbcType=VARCHAR}, #{usertype,jdbcType=DECIMAL}, #{userstatus,jdbcType=DECIMAL}, 
+      #{userdesc,jdbcType=VARCHAR}, #{userhobby,jdbcType=VARCHAR}, #{crtime,jdbcType=TIMESTAMP}, 
+      #{cruserid,jdbcType=DECIMAL}, #{userstarttime,jdbcType=TIMESTAMP}, #{userendtime,jdbcType=TIMESTAMP}, 
+      #{crtimestr,jdbcType=DECIMAL}, #{userstarttimestr,jdbcType=DECIMAL}, #{userendtimestr,jdbcType=DECIMAL}, 
+      #{token,jdbcType=VARCHAR}, #{useraddress,jdbcType=VARCHAR}, #{usertelphone,jdbcType=VARCHAR}, 
+      #{usermobile,jdbcType=VARCHAR}, #{useremail,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kkx.user.bean.kkxuser">
+    insert into KKX.KKXUSER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        USERID,
+      </if>
+      <if test="useruuid != null">
+        USERUUID,
+      </if>
+      <if test="username != null">
+        USERNAME,
+      </if>
+      <if test="userpwd != null">
+        USERPWD,
+      </if>
+      <if test="usertype != null">
+        USERTYPE,
+      </if>
+      <if test="userstatus != null">
+        USERSTATUS,
+      </if>
+      <if test="userdesc != null">
+        USERDESC,
+      </if>
+      <if test="userhobby != null">
+        USERHOBBY,
+      </if>
+      <if test="crtime != null">
+        CRTIME,
+      </if>
+      <if test="cruserid != null">
+        CRUSERID,
+      </if>
+      <if test="userstarttime != null">
+        USERSTARTTIME,
+      </if>
+      <if test="userendtime != null">
+        USERENDTIME,
+      </if>
+      <if test="crtimestr != null">
+        CRTIMESTR,
+      </if>
+      <if test="userstarttimestr != null">
+        USERSTARTTIMESTR,
+      </if>
+      <if test="userendtimestr != null">
+        USERENDTIMESTR,
+      </if>
+      <if test="token != null">
+        TOKEN,
+      </if>
+      <if test="useraddress != null">
+        USERADDRESS,
+      </if>
+      <if test="usertelphone != null">
+        USERTELPHONE,
+      </if>
+      <if test="usermobile != null">
+        USERMOBILE,
+      </if>
+      <if test="useremail != null">
+        USEREMAIL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="useruuid != null">
+        #{useruuid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userpwd != null">
+        #{userpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null">
+        #{usertype,jdbcType=DECIMAL},
+      </if>
+      <if test="userstatus != null">
+        #{userstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="userdesc != null">
+        #{userdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="userhobby != null">
+        #{userhobby,jdbcType=VARCHAR},
+      </if>
+      <if test="crtime != null">
+        #{crtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cruserid != null">
+        #{cruserid,jdbcType=DECIMAL},
+      </if>
+      <if test="userstarttime != null">
+        #{userstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userendtime != null">
+        #{userendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtimestr != null">
+        #{crtimestr,jdbcType=DECIMAL},
+      </if>
+      <if test="userstarttimestr != null">
+        #{userstarttimestr,jdbcType=DECIMAL},
+      </if>
+      <if test="userendtimestr != null">
+        #{userendtimestr,jdbcType=DECIMAL},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="useraddress != null">
+        #{useraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="usertelphone != null">
+        #{usertelphone,jdbcType=VARCHAR},
+      </if>
+      <if test="usermobile != null">
+        #{usermobile,jdbcType=VARCHAR},
+      </if>
+      <if test="useremail != null">
+        #{useremail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kkx.user.bean.kkxuser">
+    update KKX.KKXUSER
+    <set>
+      <if test="useruuid != null">
+        USERUUID = #{useruuid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userpwd != null">
+        USERPWD = #{userpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null">
+        USERTYPE = #{usertype,jdbcType=DECIMAL},
+      </if>
+      <if test="userstatus != null">
+        USERSTATUS = #{userstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="userdesc != null">
+        USERDESC = #{userdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="userhobby != null">
+        USERHOBBY = #{userhobby,jdbcType=VARCHAR},
+      </if>
+      <if test="crtime != null">
+        CRTIME = #{crtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cruserid != null">
+        CRUSERID = #{cruserid,jdbcType=DECIMAL},
+      </if>
+      <if test="userstarttime != null">
+        USERSTARTTIME = #{userstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userendtime != null">
+        USERENDTIME = #{userendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtimestr != null">
+        CRTIMESTR = #{crtimestr,jdbcType=DECIMAL},
+      </if>
+      <if test="userstarttimestr != null">
+        USERSTARTTIMESTR = #{userstarttimestr,jdbcType=DECIMAL},
+      </if>
+      <if test="userendtimestr != null">
+        USERENDTIMESTR = #{userendtimestr,jdbcType=DECIMAL},
+      </if>
+      <if test="token != null">
+        TOKEN = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="useraddress != null">
+        USERADDRESS = #{useraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="usertelphone != null">
+        USERTELPHONE = #{usertelphone,jdbcType=VARCHAR},
+      </if>
+      <if test="usermobile != null">
+        USERMOBILE = #{usermobile,jdbcType=VARCHAR},
+      </if>
+      <if test="useremail != null">
+        USEREMAIL = #{useremail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kkx.user.bean.kkxuser">
+    update KKX.KKXUSER
+    set USERUUID = #{useruuid,jdbcType=VARCHAR},
+      USERNAME = #{username,jdbcType=VARCHAR},
+      USERPWD = #{userpwd,jdbcType=VARCHAR},
+      USERTYPE = #{usertype,jdbcType=DECIMAL},
+      USERSTATUS = #{userstatus,jdbcType=DECIMAL},
+      USERDESC = #{userdesc,jdbcType=VARCHAR},
+      USERHOBBY = #{userhobby,jdbcType=VARCHAR},
+      CRTIME = #{crtime,jdbcType=TIMESTAMP},
+      CRUSERID = #{cruserid,jdbcType=DECIMAL},
+      USERSTARTTIME = #{userstarttime,jdbcType=TIMESTAMP},
+      USERENDTIME = #{userendtime,jdbcType=TIMESTAMP},
+      CRTIMESTR = #{crtimestr,jdbcType=DECIMAL},
+      USERSTARTTIMESTR = #{userstarttimestr,jdbcType=DECIMAL},
+      USERENDTIMESTR = #{userendtimestr,jdbcType=DECIMAL},
+      TOKEN = #{token,jdbcType=VARCHAR},
+      USERADDRESS = #{useraddress,jdbcType=VARCHAR},
+      USERTELPHONE = #{usertelphone,jdbcType=VARCHAR},
+      USERMOBILE = #{usermobile,jdbcType=VARCHAR},
+      USEREMAIL = #{useremail,jdbcType=VARCHAR}
+    where USERID = #{userid,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="keymgr">
+    <output-path>$PROJECT_DIR$/out/artifacts/keymgr</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="keymgr" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="keymgr/web/Web" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--扫描包方式-->
+    <typeAliases>
+        <typeAlias type="com.kkx.user.service.kkxuserMapper" alias="kkxuser" />
+    </typeAliases>
+
+
+
+
+    <!--配置映射器  扫描包下的配置文件-->
+    <mappers>
+        <mapper resource="mapping/kkxuserMapper.xml" />
+    </mappers>
+
+
+
+
+
+</configuration>
