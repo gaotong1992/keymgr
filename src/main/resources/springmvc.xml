@@ -16,7 +16,8 @@
 
 
     <!--配置静态资源-->
-    <mvn:resources mapping="/js/*" location="/js/" />
+    <mvn:resources mapping="/demo/**" location="/demo/" />
+    <mvc:resources mapping="/style/**" location="/style/" />
 
 
     <!--配置解析器  -->
@@ -29,6 +30,9 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/style/**"/>
+            <mvc:exclude-mapping path="/login" />
+            <mvc:exclude-mapping path="/bool/**" />
             <bean class="com.kkx.intercept.WebIntercept"/>
         </mvc:interceptor>
     </mvc:interceptors>

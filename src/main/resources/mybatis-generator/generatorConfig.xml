@@ -4,7 +4,9 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <properties resource="mybatis-generator/generatorConfig.properties" />
+    <properties resource="mybatis-generator/generatorConfig.properties" ></properties>
+
+
     <classPathEntry location="${jdbc_driverPath}" />
     <context id="my" targetRuntime="MyBatis3">
 
@@ -30,9 +32,9 @@
         </javaClientGenerator>
 
         <!--schema数据库名，tableName表名，domainObjectName生成的Dao名-->
-        <table schema="kkx" tableName="kkxuser" domainObjectName="kkxuser"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+        <table schema="kkx" tableName="kkxuserword" domainObjectName="kkxuserword"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="false">
             <!--<columnRenamingRule searchString="^D_" replaceString=""/> -->
         </table>

@@ -4,6 +4,24 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class kkxuser {
+
+
+    /**
+     *  管理员类型
+     * @return
+     */
+    public static Integer TYPEGUANLIYUAN = 10;
+    /**
+     *  普通类型用户
+     * @return
+     */
+    public static Integer TYPEPUTONG = 20;
+    /**
+     *  正常状态
+     * @return
+     */
+    public static Integer STATUSZHENGCHANG = 10;
+
     private Long userid;
 
     private String useruuid;

@@ -31,15 +31,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from KKX.KKXUSER
+    from KKXUSER
     where USERID = #{userid,jdbcType=DECIMAL}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from KKX.KKXUSER
+    delete from KKXUSER
     where USERID = #{userid,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.kkx.user.bean.kkxuser">
-    insert into KKX.KKXUSER (USERID, USERUUID, USERNAME, 
+    insert into KKXUSER (USERID, USERUUID, USERNAME,
       USERPWD, USERTYPE, USERSTATUS, 
       USERDESC, USERHOBBY, CRTIME, 
       CRUSERID, USERSTARTTIME, USERENDTIME, 
@@ -55,7 +55,7 @@
       #{usermobile,jdbcType=VARCHAR}, #{useremail,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kkx.user.bean.kkxuser">
-    insert into KKX.KKXUSER
+    insert into KKXUSER
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userid != null">
         USERID,
@@ -182,7 +182,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.kkx.user.bean.kkxuser">
-    update KKX.KKXUSER
+    update KKXUSER
     <set>
       <if test="useruuid != null">
         USERUUID = #{useruuid,jdbcType=VARCHAR},
@@ -245,7 +245,7 @@
     where USERID = #{userid,jdbcType=DECIMAL}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kkx.user.bean.kkxuser">
-    update KKX.KKXUSER
+    update KKXUSER
     set USERUUID = #{useruuid,jdbcType=VARCHAR},
       USERNAME = #{username,jdbcType=VARCHAR},
       USERPWD = #{userpwd,jdbcType=VARCHAR},
@@ -267,4 +267,22 @@
       USEREMAIL = #{useremail,jdbcType=VARCHAR}
     where USERID = #{userid,jdbcType=DECIMAL}
   </update>
+  <!--扩展-->
+  <!--登陆-->
+  <select id="selectKkxUserByUnameByUpwd" parameterType="java.util.HashMap" resultType="com.kkx.user.bean.kkxuser">
+   SELECT * FROM KKXUSER WHERE USERNAME = #{username} AND USERPWD = #{userpwd}
+  </select>
+  <!--获取用户表最大id-->
+  <select id="selectKkxUserOfNextCateid"  resultType="java.lang.Long">
+    SELECT CASE WHEN MAX(userid) IS NULL THEN 1 ELSE MAX(userid)+1  END AS nextid FROM KKXUSER
+  </select>
+  <!--查询用户列表-->
+  <select id="selectKkxuserlist" resultType="com.kkx.user.bean.kkxuser" >
+    SELECT * FROM KKXUSER ORDER BY USERID DESC
+  </select>
+  <!--根据mac查询用户-->
+  <select id="selectKkxUserByMac" parameterType="java.util.HashMap" resultType="com.kkx.user.bean.kkxuser">
+    SELECT * FROM KKXUSER WHERE TOKEN = #{token}
+  </select>
+
 </mapper>
