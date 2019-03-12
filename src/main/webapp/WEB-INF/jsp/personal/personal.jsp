@@ -28,39 +28,46 @@
     <!--分类词表-->
     <div style="border-bottom: thin solid rgba(255,255,255,0.15);min-height: 150px;padding:15px;">
 
-        <select id="sel_cate_list" style="color: #000;" onchange="selonlistchang(this)">
-            <option value="client1" selected="selected">中医药文献数据结构化处理系统</option>
-            <option value="client2">中医药文献数据结构化处理系统针灸</option>
+        <select id="sel_cate_list" style="color: #000;width: 50%;float: left;" onchange="selonlistchang(this)">
+            <option value="10" selected="selected">中医药文献数据结构化处理系统</option>
+            <option value="20">中医药文献数据结构化处理系统针灸</option>
         </select>
 
-        <div>
-            <ul class="personalcolname">
-                <li>方名&nbsp;<input type="checkbox" checked="checked" /></li>
-                <li>疾病名称&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>期刊&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>实验室指标&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>药物组成&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>证候&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>症状&nbsp;<input type="checkbox" checked="checked"/></li>
-            </ul>
+        <div id="sel_son_colname">
+            <select style="color: #000; float:left;margin-left: 10px;width: 30%;" id="selclient1" onchange="selFunwordR()">
+                <option value="all" selected="selected">全部</option>
+                <option value="fm">方名</option>
+                <option value="jbmc">疾病名称</option>
+                <option value="qk">期刊</option>
+                <option value="syszb">实验室指标</option>
+                <option value="ywzc">药物组成</option>
+                <option value="zh">证候</option>
+                <option value="zz">症状</option>
+            </select>
 
-            <ul class="personalcolname" style="display: none;">
-                <li>期刊&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>药物组成&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>证候&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>穴位组成&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>疾病名称&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>方名&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>方法&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>手法&nbsp;<input type="checkbox" checked="checked"/></li>
-                <li>经络&nbsp;<input type="checkbox" checked="checked"/></li>
-            </ul>
+
+            <select style="color: #000;display:none;float:left;margin-left: 10px;width: 30%;" id="selclient2" onchange="selFunwordR()">
+                <option value="all" selected="selected" >全部</option>
+                <option value="qk">期刊</option>
+                <option value="ywzc">药物组成</option>
+                <option value="zh">证候</option>
+                <option value="xwzc">穴位组成</option>
+                <option value="jbmc">疾病名称</option>
+                <option value="fm">方名</option>
+                <option value="ff">方法</option>
+                <option value="sf">手法</option>
+                <option value="jl">经络</option>
+            </select>
         </div>
 
+        <div style="margin-top: 50px;">
+            <input id="wordsearchcontent" value="" type="text" class="form-control input-sm m-b-10" placeholder="请输入检索词" style="width:50%;float:left;">
+            <button type="submit" onclick="searchPwordsR()" class="btn btn-sm" style="float:left;line-height:20px;">检索</button>
+        </div>
 
     </div>
     <!---扩展词表内容-->
-    <div>
+    <div id="divcontentword">
 
 
     </div>
@@ -68,6 +75,8 @@
 
 <script type="text/javascript">
 
+    //选中用户的id
+    var usered = 0;
 
 
     $(function () {
@@ -78,10 +87,14 @@
     /**
      * 链接到用户自定义分类词表
      */
-    function  userUploadWord(_userid) {
-
-
-
+    function  userUploadWord(_userid,_this) {
+        //css update
+        $("#tbody_1_userlist").find("tr").each(function(_index,_thisson){
+            $(_thisson).css("background-color","");
+        });
+        $(_this).css("background-color","#A9A9A9");
+        usered = _userid;
+        selDate();
     }
 
     /**
@@ -90,12 +103,53 @@
      */
     function selonlistchang(_this){
         var selval = $(_this).val();
-        if(selval=="client1"){
-            $(".personalcolname:eq(0)").show();
-            $(".personalcolname:eq(1)").hide();
-        }else if(selval=="client2"){
-            $(".personalcolname:eq(1)").show();
-            $(".personalcolname:eq(0)").hide();
+        if(selval=="10"){
+            $("#selclient1").show();
+            $("#selclient2").hide();
+        }else if(selval=="20"){
+            $("#selclient2").show();
+            $("#selclient1").hide();
+        }
+
+            selDate();
+    }
+
+
+    /***
+     * 列
+     */
+    function selFunwordR() {
+
+        selDate();
+    }
+
+    /***
+     * 检索
+     */
+    function searchPwordsR() {
+        selDate();
+    }
+
+
+
+    //获取用户数据
+    function selDate(){
+        //存在选中用户
+        if(parseInt(usered)>0) {
+            //系统类型
+            var sel_cate_list = $("#sel_cate_list").val();
+            //列名称
+            var sel_son_colname = "all";
+            $("#sel_son_colname").find("select").each(function (_index, _this) {
+                var thisdisplay = $(_this).css("display");
+                if (thisdisplay != "none") {
+                    sel_son_colname = $(_this).val();
+                }
+            });
+            //检索字段名称
+            var searchwordval = $.trim($("#wordsearchcontent").val());
+
+            $("#divcontentword").load("<%=basePath%>userword/userallwordmanagerlist?wordpagesize=1&userid=" + usered + "&sel_cate_list=" + sel_cate_list + "&sel_son_colname=" + sel_son_colname + "&searchwordval=" + searchwordval);
         }
     }
 

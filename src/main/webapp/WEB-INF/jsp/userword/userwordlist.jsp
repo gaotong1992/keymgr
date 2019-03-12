@@ -23,9 +23,9 @@
         <thead>
         <tr>
             <th>No.</th>
-            <th>词表名称</th>
-            <th>词表所属列</th>
-            <th>创建时间</th>
+            <th onclick="wordOrderByPer(this)" orderby="wordname" orderbystr="${_orderbystr}" style="cursor: pointer;">词表名称</th>
+            <th onclick="wordOrderByPer(this)" orderby="wordcolname" orderbystr="${_orderbystr}"  style="cursor: pointer;">词表所属列</th>
+            <th onclick="wordOrderByPer(this)" orderby="crtime" orderbystr="${_orderbystr}"  style="cursor: pointer;">创建时间</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -37,8 +37,8 @@
                 <td>${list.wordcolname}</td>
                 <td><fmt:formatDate value="${list.crtime}" pattern="yyyy-MM-dd hh:mm:ss"/></td>
                 <td>
-                    <a href="javascript:void(0);" onclick="updateUWord(${list.kkxuserlinkwordid},'${list.wordname}','${list.wordcolname}',${pagenum})">修改</a>
-                    <a href="javascript:void(0);" onclick="deleteUWord(${list.kkxuserlinkwordid},${pagenum})" style="margin-left: 10px;">删除</a>
+                    <button class="btn btn-xs btn-alt m-r-5"  onclick="updateUWord(${list.kkxuserlinkwordid},'${list.wordname}','${list.wordcolname}',${pagenum})" >修改</button>
+                    <button class="btn btn-xs btn-alt m-r-5"  onclick="deleteUWord(${list.kkxuserlinkwordid},${pagenum})" style="margin-left: 10px;">删除</button>
                 </td>
             </tr>
         </c:forEach>
@@ -155,6 +155,7 @@
 
     
     function fenyecontent(page) {
+
         var client = ${client};
 
         var selcolval = "";
@@ -168,7 +169,9 @@
 
         var wordsearchcontent = $.trim($("#wordsearchcontent").val());
 
-        $("#personaluserlist").load("<%=basePath%>userword/getcontentbypwword?pagesize="+page+"&client="+client+"&selcolval="+selcolval+"&wordsearchcontent="+wordsearchcontent);
+
+
+        $("#personaluserlist").load("<%=basePath%>userword/getcontentbypwword?pagesize="+page+"&client="+client+"&selcolval="+selcolval+"&wordsearchcontent="+wordsearchcontent+"&orderby="+orderbystrstr);
 
     }
 
@@ -238,5 +241,8 @@
         }
 
     }
+
+
+
 
 </script>

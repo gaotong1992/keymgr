@@ -28,9 +28,9 @@
             <th>备注</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="tbody_1_userlist">
         <c:forEach items="${userlist}" var="list" varStatus="liststatus">
-            <tr class="personal_userlist_td" onclick="userUploadWord(${list.userid})">
+            <tr class="personal_userlist_td" onclick="userUploadWord(${list.userid},this)">
                 <td>${(pagenum*pagesize-pagesize)+liststatus.count}</td>
                 <td>${list.username}</td>
                 <td><c:if test="${list.userstatus==10}" >正常</c:if><c:if test="${list.userstatus!=10}" >其它</c:if></td>

@@ -30,7 +30,7 @@
         </select>
 
 
-        <select style="color: #000;display: none;float:left;margin-left: 10px;" id="selclient1">
+        <select style="color: #000;display: none;float:left;margin-left: 10px;" id="selclient1" onchange="selFunword(this)">
             <option value="all" selected="selected">全部</option>
             <option value="fm">方名</option>
             <option value="jbmc">疾病名称</option>
@@ -42,7 +42,7 @@
         </select>
 
 
-        <select style="color: #000;display:none;float:left;margin-left: 10px;" id="selclient2">
+        <select style="color: #000;display:none;float:left;margin-left: 10px;" id="selclient2" onchange="selFunword(this)">
             <option value="all" selected="selected" >全部</option>
             <option value="qk">期刊</option>
             <option value="ywzc">药物组成</option>
@@ -99,6 +99,9 @@
 </div>
 
 <script type="text/javascript">
+    var orderbystrstr = "";
+
+
     $(function () {
         clientSel();
         inituploadFile();
@@ -229,7 +232,7 @@
      */
     function getContentByPWord(){
         var selval = $("#sel_cate_list").val();
-        $("#personaluserlist").load("<%=basePath%>userword/getcontentbypwword?pagesize=1&client="+selval+"&selcolval=&wordsearchcontent=");
+        $("#personaluserlist").load("<%=basePath%>userword/getcontentbypwword?pagesize=1&client="+selval+"&selcolval=&wordsearchcontent="+"&orderby=");
 
     }
 
@@ -253,18 +256,50 @@
 
         if(wordsearchcontent!=""){
 
-            $("#personaluserlist").load("<%=basePath%>userword/getcontentbypwword?pagesize=1&client="+selval+"&selcolval="+selcolval+"&wordsearchcontent="+wordsearchcontent);
+            $("#personaluserlist").load("<%=basePath%>userword/getcontentbypwword?pagesize=1&client="+selval+"&selcolval="+selcolval+"&wordsearchcontent="+wordsearchcontent+"&orderby="+orderbystrstr);
         }else{
 
             alert("请输入检索词！");
         }
+    }
 
+    /**
+     * select 选择更新
+     * @param _this
+     */
+    function selFunword(_this){
+        var colval =  _this.value;
+        var selval = $("#sel_cate_list").val();
+        $("#personaluserlist").load("<%=basePath%>userword/getcontentbypwword?pagesize=1&client="+selval+"&selcolval="+colval+"&wordsearchcontent="+"&orderby="+orderbystrstr);
+    }
+    /**
+     * 列排序
+     * @param _colname
+     */
+    function wordOrderByPer(_this){
 
+        var orderby = $(_this).attr("orderby");
+        var orderbystr = $(_this).attr("orderbystr");
+        var orderbystrln = orderby+"$$"+orderbystr;
+        orderbystrstr = orderbystrln;
 
+        var selval = $("#sel_cate_list").val();//词表类型
+
+        var selcolval = "";
+        var selcolval1 = $("#selclient1").css("display");
+        var selcolval2 = $("#selclient2").css("display");
+        if(selcolval1=="block"){
+            selcolval = $("#selclient1").val();
+        }else if(selcolval2=="block"){
+            selcolval = $("#selclient2").val();
+        }
+
+        var wordsearchcontent = $.trim($("#wordsearchcontent").val());
+
+        $("#personaluserlist").load("<%=basePath%>userword/getcontentbypwword?pagesize=1&client="+selval+"&selcolval="+selcolval+"&wordsearchcontent="+wordsearchcontent+"&orderby="+orderbystrstr);
 
 
     }
-
 </script>
 
 

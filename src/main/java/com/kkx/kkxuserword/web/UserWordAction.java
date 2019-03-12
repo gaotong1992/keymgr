@@ -11,6 +11,9 @@ import com.kkx.userauth.bean.userauth;
 import com.kkx.userauth.bean.userauthExample;
 import com.kkx.userauth.service.userauthMapper;
 import com.kkx.util.ActionUtil;
+import com.kkx.word.bean.kkxword;
+import com.kkx.word.bean.kkxwordExample;
+import com.kkx.word.service.kkxwordMapper;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -21,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -32,10 +36,7 @@ import javax.servlet.http.HttpSession;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -54,6 +55,8 @@ public class UserWordAction {
     @Autowired
     private kkxuserwordMapper kkxuserwordmapper;
 
+    @Autowired
+    private kkxwordMapper kkxwordmapper;
 
 
     /**
@@ -96,7 +99,7 @@ public class UserWordAction {
 
 
         int msg = 0;
-        //System.out.println("****************"+_wordtype);
+
         //将当前上下文初始化给  CommonsMutipartResolver （多部分解析器）
         CommonsMultipartResolver multipartResolver=new CommonsMultipartResolver(_request.getServletContext());
         //检查form中是否有enctype="multipart/form-data"
@@ -274,7 +277,9 @@ public class UserWordAction {
                                            @RequestParam(value = "pagesize")Integer _pagesize,
                                            @RequestParam(value = "client")Integer _client,
                                            @RequestParam(value = "selcolval",required = false)String _selcolval,
-                                           @RequestParam(value = "wordsearchcontent",required = false)String _wordsearchcontent){
+                                           @RequestParam(value = "wordsearchcontent",required = false)String _wordsearchcontent,
+                                           @RequestParam(value = "orderby",required = false)String orderby
+                                           ){
         kkxuser kkxuser = (kkxuser)_session.getAttribute("user");
 
 
@@ -285,17 +290,45 @@ public class UserWordAction {
         PageHelper.startPage(_pagesize,15);
         kkxuserwordExample example = new kkxuserwordExample();
 
-        if ((!_selcolval.equals("")) && (!_wordsearchcontent.equals(""))){
-            if(_selcolval.equals("all")){
-                example.createCriteria().andWordtypeEqualTo(_client).andWorduseridEqualTo(kkxuser.getUserid()).andWordnameLike("%"+_wordsearchcontent+"%");
+
+
+
+        if ((!_selcolval.equals(""))){
+            if((!_wordsearchcontent.equals(""))){
+                if(_selcolval.equals("all")){
+                    example.createCriteria().andWordtypeEqualTo(_client).andWorduseridEqualTo(kkxuser.getUserid()).andWordnameLike("%"+_wordsearchcontent+"%");
+
+                }else{
+                    example.createCriteria().andWordtypeEqualTo(_client).andWorduseridEqualTo(kkxuser.getUserid()).andWordcolnameEqualTo(_selcolval).andWordnameLike("%"+_wordsearchcontent+"%");
+
+                }
             }else{
-                example.createCriteria().andWordtypeEqualTo(_client).andWorduseridEqualTo(kkxuser.getUserid()).andWordcolnameEqualTo(_selcolval).andWordnameLike("%"+_wordsearchcontent+"%");
+                if(_selcolval.equals("all")){
+                    example.createCriteria().andWordtypeEqualTo(_client).andWorduseridEqualTo(kkxuser.getUserid());
+                }else{
+                    example.createCriteria().andWordtypeEqualTo(_client).andWorduseridEqualTo(kkxuser.getUserid()).andWordcolnameEqualTo(_selcolval);
+                }
             }
         }else{
             example.createCriteria().andWordtypeEqualTo(_client).andWorduseridEqualTo(kkxuser.getUserid());
         }
 
-        example.setOrderByClause("crtime desc");
+        String _orderbystr = "desc";
+
+        if(orderby!=null && (!orderby.equals(""))){
+            String arrayorderbystr = orderby.split("\\$\\$")[1];
+            if(arrayorderbystr.equals("desc")){
+                _orderbystr = "asc";
+            }else{
+                _orderbystr = "desc";
+            }
+            example.setOrderByClause(orderby.replace("$$","  "));
+        }else{
+            example.setOrderByClause("crtime desc");
+        }
+
+        _mav.addObject("_orderbystr",_orderbystr);
+
         List<kkxuserword> userwordlist = this.kkxuserwordmapper.selectByExample(example);
         PageInfo<kkxuserword> pageInfo = new PageInfo<kkxuserword>(userwordlist);
         if(pageInfo!=null){
@@ -368,4 +401,121 @@ public class UserWordAction {
 
     }
 
+
+    /**
+     * 链接到用户个人词表管理界面
+     * @param _mav
+     * @return
+     */
+    @RequestMapping(value = "userallwordmanagerlist")
+    public ModelAndView userallwordmanagerlist(ModelAndView _mav,
+                                               @RequestParam(value = "wordpagesize",required = false)Integer _wordpagesize,
+                                               @RequestParam(value = "sel_cate_list",required = false)Integer _sel_cate_list,
+                                               @RequestParam(value = "sel_son_colname",required = false)String _sel_son_colname,
+                                               @RequestParam(value = "searchwordval",required = false)String _searchwordval,
+                                               @RequestParam(value = "userid",required = false)Long _userid){
+
+
+
+
+        //分页查询
+        long pagetotalnum = 0;
+        long pagezong = 0;
+        PageHelper.startPage(_wordpagesize,15);
+        kkxuserwordExample example = new kkxuserwordExample();
+
+        if ((!_sel_son_colname.equals(""))){
+            if((!_searchwordval.equals(""))){
+                if(_sel_son_colname.equals("all")){
+                    example.createCriteria().andWordtypeEqualTo(_sel_cate_list).andWorduseridEqualTo(_userid).andWordnameLike("%"+_searchwordval+"%");
+                }else{
+                    example.createCriteria().andWordtypeEqualTo(_sel_cate_list).andWorduseridEqualTo(_userid).andWordcolnameEqualTo(_sel_son_colname).andWordnameLike("%"+_searchwordval+"%");
+                }
+            }else{
+                if(_sel_son_colname.equals("all")){
+                    example.createCriteria().andWordtypeEqualTo(_sel_cate_list).andWorduseridEqualTo(_userid);
+                }else{
+                    example.createCriteria().andWordtypeEqualTo(_sel_cate_list).andWorduseridEqualTo(_userid).andWordcolnameEqualTo(_sel_son_colname);
+                }
+            }
+        }else{
+            example.createCriteria().andWordtypeEqualTo(_sel_cate_list).andWorduseridEqualTo(_userid);
+        }
+        example.setOrderByClause("crtime desc");
+
+        List<kkxuserword> userwordlist = this.kkxuserwordmapper.selectByExample(example);
+        PageInfo<kkxuserword> pageInfo = new PageInfo<kkxuserword>(userwordlist);
+        if(pageInfo!=null){
+            pagetotalnum = pageInfo.getTotal();
+        }
+        if(pagetotalnum%15==0){
+            pagezong = pagetotalnum/15;
+        }else{
+            pagezong = pagetotalnum/15+1;
+        }
+        _mav.addObject("userwordlist",pageInfo.getList());
+
+
+        Map mapwordlist = new HashMap();
+        //判断当前词表 主表是否存在
+        if(pageInfo.getList()!=null && pageInfo.getList().size()>0){
+            List<kkxuserword> wlist = pageInfo.getList();
+            for (int i = 0; i <wlist.size() ; i++) {
+                kkxuserword kuword = wlist.get(i);
+                kkxwordExample kexample = new kkxwordExample();
+                kexample.createCriteria().andWordtypeEqualTo(kuword.getWordtype()).andWordnameEqualTo(kuword.getWordname()).andWordcolnameEqualTo(kuword.getWordcolname());
+                List<kkxword> kwordlist = kkxwordmapper.selectByExample(kexample);
+                if(kwordlist!=null && kwordlist.size()>0){
+                    mapwordlist.put(kuword.getKkxuserlinkwordid(),"1");
+                }else{
+                    mapwordlist.put(kuword.getKkxuserlinkwordid(),"0");
+                }
+            }
+        }
+
+        _mav.addObject("mapwordlist",mapwordlist);
+
+        _mav.addObject("pagenumright",_wordpagesize);
+        _mav.addObject("pagesizeright",15);
+        _mav.addObject("pagezongright",pagezong);
+        _mav.addObject("client",_sel_cate_list);
+
+
+        _mav.setViewName("personal/wordlist");
+        return  _mav;
+    }
+
+
+    /**
+     * 个人词表 加载至主词表
+     * @param _wordlinkid
+     */
+    @ResponseBody
+    @RequestMapping(value = "adduserword")
+    public  void  adduserword(@RequestParam(value = "wordlinkid")Long _wordlinkid,HttpServletResponse _response){
+
+        int msg = 0;
+
+        kkxuserword uwordobj = null;
+        kkxuserwordExample  example = new kkxuserwordExample();
+        example.createCriteria().andKkxuserlinkwordidEqualTo(_wordlinkid);
+        List<kkxuserword> listkkxuserword = this.kkxuserwordmapper.selectByExample(example);
+        if(listkkxuserword!=null && listkkxuserword.size()>0){
+            uwordobj = listkkxuserword.get(0);
+        }
+
+        if (uwordobj!=null){
+            Long wordid =  this.kkxwordmapper.getMaxIdByWord();
+            kkxword kword = new kkxword();
+            kword.setTableid(wordid);
+            kword.setWordcolname(uwordobj.getWordcolname());
+            kword.setWordname(uwordobj.getWordname());
+            kword.setWordtype(uwordobj.getWordtype());
+            kword.setWordstatus(10);
+            this.kkxwordmapper.insertSelective(kword);
+            msg = 1;
+        }
+        ActionUtil.write(msg+"",_response);
+
+    }
 }

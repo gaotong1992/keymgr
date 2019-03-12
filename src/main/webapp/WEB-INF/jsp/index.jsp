@@ -244,13 +244,13 @@
                 //词表页面 client1
                 $("#menudaohang").find("li").removeClass("active");
                 $("#menudaohang").find("li:eq(2)").addClass("active");
-                $("#content").load("<%=basePath%>word/linkwordmanager?pagesize=1&wordtype=10&wordsearchcontent=");
+                $("#content").load("<%=basePath%>word/linkwordmanager?wordtype=10");
                 break;
             case 4:
                 //词表页面 client2
                 $("#menudaohang").find("li").removeClass("active");
                 $("#menudaohang").find("li:eq(2)").addClass("active");
-                $("#content").load("<%=basePath%>word/linkwordmanager?pagesize=1&wordtype=20&wordsearchcontent=");
+                $("#content").load("<%=basePath%>word/linkwordmanager?wordtype=20");
                 break;
             case 5:
                 //用户扩展词表管理
@@ -457,98 +457,7 @@
 
 
     }
-        
-    /************************************************************************************************/
-    /**
-     * 删除某个词
-     * @param _tableid
-     * @param _pagenum
-     */
-    function  delWord(_tableid,_pagenum) {
-        var msg = window.confirm("您确定删除这个词吗？");
-        if(msg==true){
-            $.ajax({
-                type:"post",
-                url:"<%=basePath%>word/delword",
-                data:{
-                    tableid:_tableid
-                },
-                cache:false,
-                success:function(_msg){
-                    setTimeout(function(){
-                        if(_msg=="1"){
-                            //删除成功了刷新
-                            //$("#content").load("<%=basePath%>word/linkwordmanager?pagesize="+_pagenum+"&wordtype="+$("#wordwordtype").val());
-                            $("#content").load("<%=basePath%>word/linkwordmanager?pagesize="+_pagenum+"&wordtype="+$("#wordwordtype").val()+"&wordsearchcontent="+$.trim($("#wordsearchcontent").val()));
 
-                        }
-                    },500);
-                },
-                error:function(){
-                }
-            });
-        }
-    }
-    /**
-     * 修改某个词
-     * @param _tableid
-     * @param _pagenum
-     */
-    function  updateWord(_tableid,_pagenum) {
-        $.ajax({
-            type:"post",
-            url:"<%=basePath%>word/updateword",
-            data:{
-                tableid:_tableid
-            },
-            cache:false,
-            success:function(_content){
-                var contentobj = $.parseJSON(_content);
-                $("#formwordupdate").find("input[name='tableid']").val(contentobj.tableid=='null'?"":contentobj.tableid);
-                $("#formwordupdate").find("input[name='wordname']").val(contentobj.wordname=='null'?"":contentobj.wordname);
-                $("#formwordupdate").find("input[name='wordcolname']").val(contentobj.wordcolname=='null'?"":contentobj.wordcolname);
-                $('#updateword').modal('show');
-
-                $("#wordUpdateForm").unbind("click");
-                $("#wordUpdateForm").click(function(){
-                    var sercont = $("#formwordupdate").serialize();
-                    $.ajax({
-                        type:"post",
-                        url:"<%=basePath%>word/wordupdateform",
-                        data:sercont,
-                        cache:false,
-                        success:function(_msg){
-                            $('#updateword').modal('hide');
-                            setTimeout(function(){
-                                if(_msg=="1"){
-                                    //修改词语成功了刷新
-                                    $("#content").load("<%=basePath%>word/linkwordmanager?pagesize="+_pagenum+"&wordtype="+$("#wordwordtype").val()+"&wordsearchcontent="+$.trim($("#wordsearchcontent").val()));
-
-                                }
-                            },500);
-                        },
-                        error:function(){
-                        }
-                    });
-                });
-
-
-            },
-            error:function(){
-            }
-        });
-    }
-
-
-    /**
-     * 检索内容
-     */
-    function  searchWContent() {
-        var scontentstr = $.trim($("#wordsearchcontent").val());
-        if(scontentstr!=""){
-            $("#content").load("<%=basePath%>word/linkwordmanager?pagesize=1&wordtype="+$("#wordwordtype").val()+"&wordsearchcontent="+scontentstr);
-        }
-    }
 
     
     
