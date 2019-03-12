@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkx.userauth.service.userauthMapper">
+  <resultMap id="BaseResultMap" type="com.kkx.userauth.bean.userauth">
+    <result column="USERAUTHID" jdbcType="DECIMAL" property="userauthid" />
+    <result column="USERID" jdbcType="DECIMAL" property="userid" />
+    <result column="AUTHID" jdbcType="DECIMAL" property="authid" />
+    <result column="AUTHTYPE" jdbcType="DECIMAL" property="authtype" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crtime" />
+    <result column="CRUSERID" jdbcType="DECIMAL" property="cruserid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    USERAUTHID, USERID, AUTHID, AUTHTYPE, CRTIME, CRUSERID
+  </sql>
+  <select id="selectByExample" parameterType="com.kkx.userauth.bean.userauthExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from USERAUTH
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.kkx.userauth.bean.userauthExample">
+    delete from USERAUTH
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kkx.userauth.bean.userauth">
+    insert into USERAUTH (USERAUTHID, USERID, AUTHID,
+      AUTHTYPE, CRTIME, CRUSERID
+      )
+    values (#{userauthid,jdbcType=DECIMAL}, #{userid,jdbcType=DECIMAL}, #{authid,jdbcType=DECIMAL}, 
+      #{authtype,jdbcType=DECIMAL}, #{crtime,jdbcType=TIMESTAMP}, #{cruserid,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kkx.userauth.bean.userauth">
+    insert into USERAUTH
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userauthid != null">
+        USERAUTHID,
+      </if>
+      <if test="userid != null">
+        USERID,
+      </if>
+      <if test="authid != null">
+        AUTHID,
+      </if>
+      <if test="authtype != null">
+        AUTHTYPE,
+      </if>
+      <if test="crtime != null">
+        CRTIME,
+      </if>
+      <if test="cruserid != null">
+        CRUSERID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userauthid != null">
+        #{userauthid,jdbcType=DECIMAL},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="authid != null">
+        #{authid,jdbcType=DECIMAL},
+      </if>
+      <if test="authtype != null">
+        #{authtype,jdbcType=DECIMAL},
+      </if>
+      <if test="crtime != null">
+        #{crtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cruserid != null">
+        #{cruserid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kkx.userauth.bean.userauthExample" resultType="java.lang.Long">
+    select count(*) from USERAUTH
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update USERAUTH
+    <set>
+      <if test="record.userauthid != null">
+        USERAUTHID = #{record.userauthid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.userid != null">
+        USERID = #{record.userid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.authid != null">
+        AUTHID = #{record.authid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.authtype != null">
+        AUTHTYPE = #{record.authtype,jdbcType=DECIMAL},
+      </if>
+      <if test="record.crtime != null">
+        CRTIME = #{record.crtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cruserid != null">
+        CRUSERID = #{record.cruserid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update USERAUTH
+    set USERAUTHID = #{record.userauthid,jdbcType=DECIMAL},
+      USERID = #{record.userid,jdbcType=DECIMAL},
+      AUTHID = #{record.authid,jdbcType=DECIMAL},
+      AUTHTYPE = #{record.authtype,jdbcType=DECIMAL},
+      CRTIME = #{record.crtime,jdbcType=TIMESTAMP},
+      CRUSERID = #{record.cruserid,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <!--扩展-->
+
+  <!--获取用户权限表下一个id-->
+  <select id="getNextIdByUserAuth" resultType="java.lang.Long">
+    SELECT CASE WHEN MAX(AUTHID) IS NULL THEN 1 ELSE MAX(AUTHID)+1  END AS nextid FROM USERAUTH
+  </select>
+
+
+</mapper>
