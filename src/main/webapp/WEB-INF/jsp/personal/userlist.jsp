@@ -42,6 +42,8 @@
     <div id="Paginator" style="text-align: center"> <ul id="pageLimit"  ></ul> </div>
 </div>
 <script type="text/javascript" >
+    $.ajaxSetup ({ cache: false });
+
     $(function(){
         $("#Paginator").find("a").css("color","white");
         //分页

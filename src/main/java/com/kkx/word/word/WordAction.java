@@ -2,8 +2,9 @@ package com.kkx.word.word;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kkx.kkxuserword.bean.kkxuserword;
-import com.kkx.kkxuserword.bean.kkxuserwordExample;
+import com.kkx.kkxconfig.bean.kkxconfig;
+import com.kkx.kkxconfig.bean.kkxconfigExample;
+import com.kkx.kkxconfig.service.kkxconfigMapper;
 import com.kkx.user.bean.kkxuser;
 import com.kkx.util.ActionUtil;
 import com.kkx.word.bean.kkxword;
@@ -30,7 +31,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,7 +42,8 @@ import java.util.List;
 public class WordAction {
 
 
-
+    @Autowired
+    private kkxconfigMapper kkxconfigmapper;
 
     @Autowired
     private kkxwordMapper kkxwordmapper;
@@ -269,6 +270,15 @@ public class WordAction {
         //检查form中是否有enctype="multipart/form-data"
         if(multipartResolver.isMultipart(_request)){
 
+            String keystrconfig = "";
+            kkxconfigExample example = new kkxconfigExample();
+            example.createCriteria().andConfignameEqualTo("KKXUPLOADPATH");
+            List<kkxconfig> configlist = kkxconfigmapper.selectByExample(example);
+            if(configlist!=null && configlist.size()>0){
+                keystrconfig = configlist.get(0).getConfigvalue();
+            }
+
+
 
             //将request变成多部分request
             MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)_request;
@@ -282,7 +292,12 @@ public class WordAction {
                 {
                     kkxuser kkxuser = (kkxuser)_session.getAttribute("user");
                     //String path="E:/springUpload"+file.getOriginalFilename();
-                    String path = "E:/"+kkxuser.getUsername()+System.currentTimeMillis()+".xlsx";
+
+
+
+
+
+                    String path = keystrconfig+"/"+kkxuser.getUsername()+System.currentTimeMillis()+".xlsx";
                     //上传
                     try {
                         File ff = new File(path);

@@ -61,7 +61,7 @@
 </div>
 
 <script type="text/javascript" >
-
+    $.ajaxSetup ({ cache: false });
 
     var wpages = 1;
     $(function(){

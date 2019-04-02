@@ -74,7 +74,7 @@
 </div>
 
 <script type="text/javascript">
-
+    $.ajaxSetup ({ cache: false });
     //选中用户的id
     var usered = 0;
 

@@ -30,12 +30,10 @@
     </header>
 
 
-    <div class="clearfix" style="width: 500px;float: left;margin-top: 150px;">
-        <p style="text-indent:2em;">根据中医药知识库构建的迫切需要，本项目基于中医药检索系统数据库资源，研究病症证方药针灸等数据拆分和清洗的关键技术以及书籍、公开数据库、期刊文献等不同数据源的数据采集的关键技术，构建中医药数据资源建设平台，实现从数据加工，数据清洗到数据库、知识库建立的完整流程，为中医药信息化服务。通过创新团队组建模式的研究，培养一支使用信息方法学研究和建设中医药数据的人才队伍。</p>
+    <div class="clearfix" style="width: 500px;float: left;margin-top: 150px;margin-left: 200px;">
+        <p style="text-indent:2em;font-size:14px;line-height: 30px;">根据中医药知识库构建的迫切需要，本项目基于中医药检索系统数据库资源，研究病症证方药针灸等数据拆分和清洗的关键技术以及书籍、公开数据库、期刊文献等不同数据源的数据采集的关键技术，构建中医药数据资源建设平台，实现从数据加工，数据清洗到数据库、知识库建立的完整流程，为中医药信息化服务。通过创新团队组建模式的研究，培养一支使用信息方法学研究和建设中医药数据的人才队伍。</p>
         <p>客户端一：中医药文献数据结构化处理系统</p>
         <p>客户端二：中医药文献数据结构化处理系统针灸</p>
-
-
 
     </div>
 
@@ -61,6 +59,9 @@
     <script src="<%=basePath%>style/js/icheck.js"></script>
     <script src="<%=basePath%>style/js/functions.js"></script>
     <script type="text/javascript">
+        $.ajaxSetup ({ cache: false });
+
+
         $(function() {
             $('#myModal').modal('hide')
         });

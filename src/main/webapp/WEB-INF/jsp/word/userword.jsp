@@ -63,7 +63,7 @@
 
 
     <br/>
-    <div style="margin-top: 30px;">
+    <div style="margin-top: 60px;">
         <div id="uploader" class="wu-example">
 
             <div class="btns">
@@ -94,7 +94,7 @@
 
 
 <script type="text/javascript">
-
+    $.ajaxSetup ({ cache: false });
     var  shuhpage = 1;
     var orderbystrstr = "";
 

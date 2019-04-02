@@ -63,7 +63,7 @@ public class UserBoolClient {
     public void boolclient(@RequestParam(value = "username",required = false)String _username,
                            @RequestParam(value = "userpwd",required = false)String _userpwd,
                            @RequestParam(value = "mac",required = false)String _mac,
-                           @RequestParam(value = "clienttype",required = false)Integer _clienttype,
+                           @RequestParam(value = "clienttype",required = true)Integer _clienttype,
                            HttpServletResponse _response){
 
 
@@ -77,8 +77,16 @@ public class UserBoolClient {
         if(list!=null && list.size()>0){
             kkxuser user = list.get(0);
             userauthExample example = new userauthExample();
+            int authmsg = 0;
+            if(_clienttype==10){
+                authmsg = 1;
+            }else if(_clienttype==20){
+                authmsg = 2;
+            }
+
+
             example.createCriteria().andUseridEqualTo(user.getUserid())
-                                    .andAuthtypeEqualTo(_clienttype);
+                                    .andAuthidEqualTo(authmsg);
             List<userauth> authlist = userauthmapper.selectByExample(example);
             if(authlist!=null && authlist.size()>0){
                 //用户有权限 更新绑定mac   先把相同的mac去掉
@@ -126,7 +134,10 @@ public class UserBoolClient {
     @ResponseBody
     public void boolmac(@RequestParam(value = "macstr",required = false)String _macstr,
                         HttpServletResponse _response,
-                        @RequestParam(value = "clienttype",required = false)Integer _clienttype){
+                        @RequestParam(value = "clienttype",required = true)Integer _clienttype){
+        System.out.println();
+
+
         String msgstr = "";
         if(_macstr!=null && (!_macstr.equals(""))){
             Map map = new HashMap();
@@ -135,15 +146,24 @@ public class UserBoolClient {
             System.out.println("000000000000000000    "+userlist.size());
             if(userlist!=null && userlist.size()>0){
                 kkxuser userobj = userlist.get(0);
+
+                int authmsg = 0;
+                if(_clienttype==10){
+                    authmsg = 1;
+                }else if(_clienttype==20){
+                    authmsg = 2;
+                }
+
+
                 userauthExample example = new userauthExample();
                 example.createCriteria().andUseridEqualTo(userobj.getUserid())
-                        .andAuthtypeEqualTo(_clienttype);
+                        .andAuthidEqualTo(authmsg);
                 List<userauth> authlist = userauthmapper.selectByExample(example);
 
                 System.out.println("000000000000000000    "+authlist.size());
                 if(authlist!=null && authlist.size()>0){
                     //mac验证正常  且有权限
-                    msgstr = userobj.getUsername()+"###########"+userobj.getUserpwd();
+                    msgstr = userobj.getUsername()+"###########"+userobj.getUserpwd()+"###########"+userobj.getUserid();
                 }
             }
         }

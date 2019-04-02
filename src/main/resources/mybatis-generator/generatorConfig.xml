@@ -32,7 +32,7 @@
         </javaClientGenerator>
 
         <!--schema数据库名，tableName表名，domainObjectName生成的Dao名-->
-        <table schema="kkx" tableName="kkxuserword" domainObjectName="kkxuserword"
+        <table  tableName="kkxpdf" domainObjectName="kkxpdf"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="false">

@@ -33,6 +33,8 @@
             <mvc:exclude-mapping path="/style/**"/>
             <mvc:exclude-mapping path="/login" />
             <mvc:exclude-mapping path="/bool/**" />
+            <mvc:exclude-mapping path="/demo/**" />
+            <mvc:exclude-mapping path="/solr/**" />
             <bean class="com.kkx.intercept.WebIntercept"/>
         </mvc:interceptor>
     </mvc:interceptors>

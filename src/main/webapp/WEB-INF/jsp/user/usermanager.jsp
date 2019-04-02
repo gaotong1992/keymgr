@@ -249,7 +249,7 @@
 
 
 <script type="text/javascript" >
-
+    $.ajaxSetup ({ cache: false });
 
 
     $(function(){

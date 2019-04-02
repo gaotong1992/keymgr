@@ -113,6 +113,7 @@
 
 
 <script type="text/javascript" >
+    $.ajaxSetup ({ cache: false });
 
     $(function(){
         $("#Paginatordivone").find("a").css("color","white");

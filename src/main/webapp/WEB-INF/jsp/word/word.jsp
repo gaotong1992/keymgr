@@ -111,7 +111,7 @@
 
 
 <script type="text/javascript" >
-
+    $.ajaxSetup ({ cache: false });
 
     $(function(){
         $("#Paginatorword").find("a").css("color","white");

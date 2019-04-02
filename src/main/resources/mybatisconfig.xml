@@ -13,6 +13,10 @@
         <typeAlias type="com.kkx.userauth.service.userauthMapper" alias="userauth" />
         <typeAlias type="com.kkx.word.service.kkxwordMapper" alias="kkxword" />
         <typeAlias type="com.kkx.kkxuserword.service.kkxuserwordMapper" alias="kkxuserword" />
+        <typeAlias type="com.kkx.kkxpdf.service.kkxpdfMapper" alias="kkxpdf" />
+        <typeAlias type="com.kkx.kkxconfig.service.kkxconfigMapper" alias="kkxconfig" />
+
+
     </typeAliases>
 
     <!--分页插件-->
@@ -30,6 +34,9 @@
         <mapper resource="mapping/userauthMapper.xml" />
         <mapper resource="mapping/kkxwordMapper.xml" />
         <mapper resource="mapping/kkxuserwordMapper.xml" />
+        <mapper resource="mapping/kkxpdfMapper.xml" />
+        <mapper resource="mapping/kkxconfigMapper.xml" />
+
     </mappers>
 
 

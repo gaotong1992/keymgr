@@ -212,7 +212,7 @@
 
 
     <script type="text/javascript">
-
+        $.ajaxSetup ({ cache: false });
     $(function () {
         //连接到首页
         $("#menudaohang").find("li").removeClass("active");
