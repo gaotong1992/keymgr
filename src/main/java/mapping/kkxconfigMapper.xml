@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkx.kkxconfig.service.kkxconfigMapper">
+  <resultMap id="BaseResultMap" type="com.kkx.kkxconfig.bean.kkxconfig">
+    <id column="CONFIGID" jdbcType="DECIMAL" property="configid" />
+    <result column="CONFIGNAME" jdbcType="VARCHAR" property="configname" />
+    <result column="CONFIGVALUE" jdbcType="VARCHAR" property="configvalue" />
+    <result column="CONFIGDESC" jdbcType="VARCHAR" property="configdesc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    CONFIGID, CONFIGNAME, CONFIGVALUE, CONFIGDESC
+  </sql>
+  <select id="selectByExample" parameterType="com.kkx.kkxconfig.bean.kkxconfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from KKXCONFIG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from KKXCONFIG
+    where CONFIGID = #{configid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from KKXCONFIG
+    where CONFIGID = #{configid,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kkx.kkxconfig.bean.kkxconfigExample">
+    delete from KKXCONFIG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kkx.kkxconfig.bean.kkxconfig">
+    insert into KKXCONFIG (CONFIGID, CONFIGNAME, CONFIGVALUE, 
+      CONFIGDESC)
+    values (#{configid,jdbcType=DECIMAL}, #{configname,jdbcType=VARCHAR}, #{configvalue,jdbcType=VARCHAR}, 
+      #{configdesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kkx.kkxconfig.bean.kkxconfig">
+    insert into KKXCONFIG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="configid != null">
+        CONFIGID,
+      </if>
+      <if test="configname != null">
+        CONFIGNAME,
+      </if>
+      <if test="configvalue != null">
+        CONFIGVALUE,
+      </if>
+      <if test="configdesc != null">
+        CONFIGDESC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="configid != null">
+        #{configid,jdbcType=DECIMAL},
+      </if>
+      <if test="configname != null">
+        #{configname,jdbcType=VARCHAR},
+      </if>
+      <if test="configvalue != null">
+        #{configvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="configdesc != null">
+        #{configdesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kkx.kkxconfig.bean.kkxconfigExample" resultType="java.lang.Long">
+    select count(*) from KKXCONFIG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update KKXCONFIG
+    <set>
+      <if test="record.configid != null">
+        CONFIGID = #{record.configid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.configname != null">
+        CONFIGNAME = #{record.configname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.configvalue != null">
+        CONFIGVALUE = #{record.configvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.configdesc != null">
+        CONFIGDESC = #{record.configdesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update KKXCONFIG
+    set CONFIGID = #{record.configid,jdbcType=DECIMAL},
+      CONFIGNAME = #{record.configname,jdbcType=VARCHAR},
+      CONFIGVALUE = #{record.configvalue,jdbcType=VARCHAR},
+      CONFIGDESC = #{record.configdesc,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kkx.kkxconfig.bean.kkxconfig">
+    update KKXCONFIG
+    <set>
+      <if test="configname != null">
+        CONFIGNAME = #{configname,jdbcType=VARCHAR},
+      </if>
+      <if test="configvalue != null">
+        CONFIGVALUE = #{configvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="configdesc != null">
+        CONFIGDESC = #{configdesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CONFIGID = #{configid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kkx.kkxconfig.bean.kkxconfig">
+    update KKXCONFIG
+    set CONFIGNAME = #{configname,jdbcType=VARCHAR},
+      CONFIGVALUE = #{configvalue,jdbcType=VARCHAR},
+      CONFIGDESC = #{configdesc,jdbcType=VARCHAR}
+    where CONFIGID = #{configid,jdbcType=DECIMAL}
+  </update>
+</mapper>

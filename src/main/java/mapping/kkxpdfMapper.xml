@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkx.kkxpdf.service.kkxpdfMapper">
+  <resultMap id="BaseResultMap" type="com.kkx.kkxpdf.bean.kkxpdf">
+    <id column="CONTENTID" jdbcType="DECIMAL" property="contentid" />
+    <result column="PDFNAME" jdbcType="VARCHAR" property="pdfname" />
+    <result column="PDFDESC" jdbcType="VARCHAR" property="pdfdesc" />
+    <result column="USERID" jdbcType="DECIMAL" property="userid" />
+    <result column="DOMSG" jdbcType="VARCHAR" property="domsg" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crtime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kkx.kkxpdf.bean.kkxpdf">
+    <result column="PDFCONTENT" jdbcType="CLOB" property="pdfcontent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    CONTENTID, PDFNAME, PDFDESC, USERID, DOMSG, CRTIME
+  </sql>
+  <sql id="Blob_Column_List">
+    PDFCONTENT
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.kkx.kkxpdf.bean.kkxpdfExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from KKXPDF
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.kkx.kkxpdf.bean.kkxpdfExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from KKXPDF
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from KKXPDF
+    where CONTENTID = #{contentid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from KKXPDF
+    where CONTENTID = #{contentid,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kkx.kkxpdf.bean.kkxpdfExample">
+    delete from KKXPDF
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kkx.kkxpdf.bean.kkxpdf">
+    insert into KKXPDF (CONTENTID, PDFNAME, PDFDESC, 
+      USERID, DOMSG, CRTIME, 
+      PDFCONTENT)
+    values (#{contentid,jdbcType=DECIMAL}, #{pdfname,jdbcType=VARCHAR}, #{pdfdesc,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=DECIMAL}, #{domsg,jdbcType=VARCHAR}, #{crtime,jdbcType=TIMESTAMP}, 
+      #{pdfcontent,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kkx.kkxpdf.bean.kkxpdf">
+    insert into KKXPDF
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="contentid != null">
+        CONTENTID,
+      </if>
+      <if test="pdfname != null">
+        PDFNAME,
+      </if>
+      <if test="pdfdesc != null">
+        PDFDESC,
+      </if>
+      <if test="userid != null">
+        USERID,
+      </if>
+      <if test="domsg != null">
+        DOMSG,
+      </if>
+      <if test="crtime != null">
+        CRTIME,
+      </if>
+      <if test="pdfcontent != null">
+        PDFCONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="contentid != null">
+        #{contentid,jdbcType=DECIMAL},
+      </if>
+      <if test="pdfname != null">
+        #{pdfname,jdbcType=VARCHAR},
+      </if>
+      <if test="pdfdesc != null">
+        #{pdfdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="domsg != null">
+        #{domsg,jdbcType=VARCHAR},
+      </if>
+      <if test="crtime != null">
+        #{crtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pdfcontent != null">
+        #{pdfcontent,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kkx.kkxpdf.bean.kkxpdfExample" resultType="java.lang.Long">
+    select count(*) from KKXPDF
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update KKXPDF
+    <set>
+      <if test="record.contentid != null">
+        CONTENTID = #{record.contentid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pdfname != null">
+        PDFNAME = #{record.pdfname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pdfdesc != null">
+        PDFDESC = #{record.pdfdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null">
+        USERID = #{record.userid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.domsg != null">
+        DOMSG = #{record.domsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.crtime != null">
+        CRTIME = #{record.crtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pdfcontent != null">
+        PDFCONTENT = #{record.pdfcontent,jdbcType=CLOB},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update KKXPDF
+    set CONTENTID = #{record.contentid,jdbcType=DECIMAL},
+      PDFNAME = #{record.pdfname,jdbcType=VARCHAR},
+      PDFDESC = #{record.pdfdesc,jdbcType=VARCHAR},
+      USERID = #{record.userid,jdbcType=DECIMAL},
+      DOMSG = #{record.domsg,jdbcType=VARCHAR},
+      CRTIME = #{record.crtime,jdbcType=TIMESTAMP},
+      PDFCONTENT = #{record.pdfcontent,jdbcType=CLOB}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update KKXPDF
+    set CONTENTID = #{record.contentid,jdbcType=DECIMAL},
+      PDFNAME = #{record.pdfname,jdbcType=VARCHAR},
+      PDFDESC = #{record.pdfdesc,jdbcType=VARCHAR},
+      USERID = #{record.userid,jdbcType=DECIMAL},
+      DOMSG = #{record.domsg,jdbcType=VARCHAR},
+      CRTIME = #{record.crtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kkx.kkxpdf.bean.kkxpdf">
+    update KKXPDF
+    <set>
+      <if test="pdfname != null">
+        PDFNAME = #{pdfname,jdbcType=VARCHAR},
+      </if>
+      <if test="pdfdesc != null">
+        PDFDESC = #{pdfdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        USERID = #{userid,jdbcType=DECIMAL},
+      </if>
+      <if test="domsg != null">
+        DOMSG = #{domsg,jdbcType=VARCHAR},
+      </if>
+      <if test="crtime != null">
+        CRTIME = #{crtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pdfcontent != null">
+        PDFCONTENT = #{pdfcontent,jdbcType=CLOB},
+      </if>
+    </set>
+    where CONTENTID = #{contentid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kkx.kkxpdf.bean.kkxpdf">
+    update KKXPDF
+    set PDFNAME = #{pdfname,jdbcType=VARCHAR},
+      PDFDESC = #{pdfdesc,jdbcType=VARCHAR},
+      USERID = #{userid,jdbcType=DECIMAL},
+      DOMSG = #{domsg,jdbcType=VARCHAR},
+      CRTIME = #{crtime,jdbcType=TIMESTAMP},
+      PDFCONTENT = #{pdfcontent,jdbcType=CLOB}
+    where CONTENTID = #{contentid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kkx.kkxpdf.bean.kkxpdf">
+    update KKXPDF
+    set PDFNAME = #{pdfname,jdbcType=VARCHAR},
+      PDFDESC = #{pdfdesc,jdbcType=VARCHAR},
+      USERID = #{userid,jdbcType=DECIMAL},
+      DOMSG = #{domsg,jdbcType=VARCHAR},
+      CRTIME = #{crtime,jdbcType=TIMESTAMP}
+    where CONTENTID = #{contentid,jdbcType=DECIMAL}
+  </update>
+
+  <select id="getMaxIdByWord" resultType="java.lang.Long">
+    SELECT CASE WHEN MAX(CONTENTID) IS NULL THEN 1 ELSE MAX(CONTENTID)+1 END AS maxid  from KKXPDF
+  </select>
+
+</mapper>
